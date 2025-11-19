@@ -24,3 +24,22 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+h1 {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+p {
+  margin: 12px 0;
+}
+
+ul {
+  list-style: disc;
+  margin: 12px 0 0 24px;
+}
+
+li {margin-top: 6px;}
