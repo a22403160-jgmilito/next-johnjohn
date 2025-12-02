@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Relogio from "../components/Relogio/relogio";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,8 @@ export default function RootLayout({
               <li><Link href ="/sobre">Sobre</Link></li>
               <li><Link href = "/projetos">projetos</Link></li>
               <li><Link href = "/orgulho">orgulho</Link></li>
+              <li><Link href = "/contador">contador</Link></li>
+              <li><Link href = "/input">input</Link></li>
             </ul>
           </nav>
         </header>
@@ -44,37 +47,11 @@ export default function RootLayout({
           {children}
         </main>
         
-        <footer>DIW {data.getFullYear()}</footer>
-
+        <footer className="flex flex-col items-center gap-1">
+          <div>DIW {data.getFullYear()}</div>
+          <Relogio />
+          </footer>
       </body>
     </html>
   );
-  /*
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} 
-        antialiased h-min-screen flex flex-col justify-center items-center`
-      }>
-        <header>
-        <h1> A minha app </h1>
-          <nav>
-            <ul className="flex gap-2" >
-              <li><Link href ="/">Intro</Link></li>
-              <li><Link href ="/sobre">Sobre</Link></li>
-              <li><Link href = "/projetos">projetos</Link></li>
-              <li><Link href = "/orgulho">orgulho</Link></li>
-            </ul>
-          </nav>
-        </header>
-        <main>
-          {children}
-        </main>
-        <footer>
-        DIW
-        </footer>
-      </body>
-    </html>
-  );
-  */
 }

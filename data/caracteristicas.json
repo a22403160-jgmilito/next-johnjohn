@@ -1,0 +1,10 @@
+[
+    {"title": "JSX, sintaxe que mistura HTML e JS"},
+    {"title": "Componentes, funções que retornam JSX."},
+    {"title": "Componentes Reutilizáveis e Modulares."},
+    {"title": "Roteamento Automático e APIs."},
+    {"title": "Hooks: useState, useEffect e useSWR."},
+    {"title": "Renderização Rápida e SEO Friendly."},
+    {"title": "TypeScript Seguro e Escalável."},
+    {"title": "Comunidade Ativa e Popularidade."}
+]
