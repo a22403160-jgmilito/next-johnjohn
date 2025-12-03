@@ -39,11 +39,12 @@ export default function RootLayout({
               <li><Link href = "/orgulho">orgulho</Link></li>
               <li><Link href = "/contador">contador</Link></li>
               <li><Link href = "/input">input</Link></li>
+              <li><Link href = "/produtos">produtos</Link></li>
             </ul>
           </nav>
         </header>
         
-        <main className="bg-blue-200 p-5 rounded-2xl max-w-2xl min-h-[70vh]">
+        <main className="bg-blue-200 p-5 rounded-2xl max-w-2xl min-h-[70vh] min-w-[400px]">
           {children}
         </main>
         

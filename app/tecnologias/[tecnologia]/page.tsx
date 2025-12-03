@@ -13,6 +13,6 @@ export default function CaracteristicasPage(){
         <h2>{tecnologias[id].title}</h2>
         <p>{tecnologias[id].description}</p>        
         </>
-
     )
+    //adicionar o botao like aqui 
 }
