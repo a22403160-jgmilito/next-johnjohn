@@ -17,6 +17,8 @@ export default function CategoriasPage(){
 
     if(error) return <p>Houve um erro: {error}</p>
     if(isLoading) return <p>A carregar</p>
+    if (!data) return <p>Sem dados para mostrar.</p>;
+
     return(
         <div>
             <h2>Categorias</h2>
