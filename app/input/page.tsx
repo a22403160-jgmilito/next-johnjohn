@@ -18,9 +18,20 @@ export default function InputPage() {
 
   // lista de tarefas
   const [tarefas, setTarefas] = useState<Tarefa[]>(() => {
-    const tarefasStored = localStorage.getItem('tarefas'); 
-    return tarefasStored ? JSON.parse(tarefasStored): []
+    if (typeof window === 'undefined') {
+      // no servidor (build) não há localStorage
+      return [];
+    }
+
+    try {
+      const tarefasStored = window.localStorage.getItem('tarefas');
+      return tarefasStored ? JSON.parse(tarefasStored) : [];
+    } catch (e) {
+      console.error('Erro ao ler tarefas do localStorage na inicialização', e);
+      return [];
+    }
   });
+
 
   // edição de tarefas
   const [idEmEdicao, setIdEmEdicao] = useState<number | null>(null);
@@ -76,20 +87,17 @@ export default function InputPage() {
     setTextoEdicao("");
   }
 
-  useEffect (() => {
-    localStorage.setItem('tarefas',JSON.stringify(tarefas))
-  },[tarefas])
-
-  
-
-  
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem('tarefas', JSON.stringify(tarefas));
+  }, [tarefas]);
 
   return (
     <>
       <h2>Input & Tarefas</h2>
 
       {/* INPUT DE TEXTO */}
-      <div className= "mt-4 mb-6">
+      <div className="mt-4 mb-6">
         <label className="block mb-2">
           Escrever algo:
         </label>
