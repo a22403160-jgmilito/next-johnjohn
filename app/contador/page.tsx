@@ -4,26 +4,34 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function ContadorPage() {
-  // estados
-  const [contagem, setConta] = useState(() =>{
-    const contagemStored = localStorage.getItem('contagem')
-    return contagemStored ? JSON.parse(contagemStored): 0
+
+  const [contagem, setConta] = useState(() => {
+    if (typeof window === "undefined") {
+
+      return 0;
+    }
+
+    const contagemStored = window.localStorage.getItem("contagem");
+    return contagemStored ? JSON.parse(contagemStored) : 0;
   });
-  
+
+
   const [historico, setHistorico] = useState<number[]>([]);
 
   // Guardar no localStorage sempre que a contagem muda
   useEffect(() => {
-    localStorage.setItem("contagem", JSON.stringify(contagem));
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("contagem", JSON.stringify(contagem));
   }, [contagem]);
+
 
   // Escolher cor dinamicamente
   const cor =
     contagem <= 3
       ? "text-red-700"
       : contagem <= 7
-      ? "text-yellow-500"
-      : "text-green-500";
+        ? "text-yellow-500"
+        : "text-green-500";
 
   // Funções dos botões – aqui sim, mexemos na contagem e no histórico
   function somar() {
