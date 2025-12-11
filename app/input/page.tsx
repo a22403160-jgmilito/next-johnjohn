@@ -1,5 +1,6 @@
 "use client";
 
+import { get } from "http";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 type Tarefa = {
@@ -16,7 +17,10 @@ export default function InputPage() {
   const [categoria, setCategoria] = useState("React");
 
   // lista de tarefas
-  const [tarefas, setTarefas] = useState<Tarefa[]>([]);
+  const [tarefas, setTarefas] = useState<Tarefa[]>(() => {
+    const tarefasStored = localStorage.getItem('tarefas'); 
+    return tarefasStored ? JSON.parse(tarefasStored): []
+  });
 
   // edição de tarefas
   const [idEmEdicao, setIdEmEdicao] = useState<number | null>(null);
@@ -71,6 +75,14 @@ export default function InputPage() {
     setIdEmEdicao(null);
     setTextoEdicao("");
   }
+
+  useEffect (() => {
+    localStorage.setItem('tarefas',JSON.stringify(tarefas))
+  },[tarefas])
+
+  
+
+  
 
   return (
     <>

@@ -5,24 +5,16 @@ import { useEffect, useState } from "react";
 
 export default function ContadorPage() {
   // estados
-  const [contagem, setConta] = useState(0);
+  const [contagem, setConta] = useState(() =>{
+    const contagemStored = localStorage.getItem('contagem')
+    return contagemStored ? JSON.parse(contagemStored): 0
+  });
+  
   const [historico, setHistorico] = useState<number[]>([]);
-
-  // Ler do localStorage quando o componente monta
-  useEffect(() => {
-    const countStored = localStorage.getItem("contagem");
-
-    if (countStored !== null) {
-      const valor = parseInt(countStored, 10);
-      if (!Number.isNaN(valor)) {
-        setConta(valor);
-      }
-    }
-  }, []);
 
   // Guardar no localStorage sempre que a contagem muda
   useEffect(() => {
-    localStorage.setItem("contagem", String(contagem));
+    localStorage.setItem("contagem", JSON.stringify(contagem));
   }, [contagem]);
 
   // Escolher cor dinamicamente
