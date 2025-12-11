@@ -32,8 +32,8 @@ export default function ProdutoDetalhe({ produto }: ProdutoDetalheProps) {
         Categoria: {produto.category}
       </p>
 
-      <p className="text-lg font-bold text-blue-600 mb-4 text-center">
-        {produto.price} €
+      <p className="text-lg font-bold text-black-600 mb-4 text-center">
+       Preço: {produto.price} €
       </p>
 
       <p className="mb-4">

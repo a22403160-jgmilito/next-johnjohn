@@ -8,10 +8,12 @@ const IMAGE_BASE_URL = 'https://deisishop.pythonanywhere.com';
 
 interface ProdutoCardProps {
   produto: Produto;
+  onAddToCart?: (produto: Produto) => void;
+  onRemoveFromCart?: (produto: Produto) => void;
+  isInCart?: boolean;
 }
 
-export default function ProdutoCard({ produto }: ProdutoCardProps) {
-  // se a API já devolver URL absoluto, isto continua a funcionar
+export default function ProdutoCard({ produto, onAddToCart, onRemoveFromCart, isInCart }: ProdutoCardProps) {
   const imageUrl = produto.image.startsWith('http')
     ? produto.image
     : IMAGE_BASE_URL + produto.image;
@@ -54,14 +56,33 @@ export default function ProdutoCard({ produto }: ProdutoCardProps) {
         </span>
       </div>
 
-      {/* 🔹 Botão +info para ir para /produtos/[id] */}
-      <div className="text-center mt-2">
+      <div className="flex justify-center gap-2 mt-2">
+        {/* botão + info (detalhes) */}
         <Link
           href={`/produtos/${produto.id}`}
-          className="inline-block bg-blue-500 text-white px-4 py-1 rounded-lg text-sm"
+          className="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm"
         >
           + info
         </Link>
+
+        {/* botão de carrinho: adiciona ou remove conforme o contexto */}
+        {onAddToCart && !isInCart && (
+          <button
+            onClick={() => onAddToCart(produto)}
+            className="bg-green-500 text-white px-3 py-1 rounded-lg text-sm"
+          >
+            Adicionar
+          </button>
+        )}
+
+        {onRemoveFromCart && isInCart && (
+          <button
+            onClick={() => onRemoveFromCart(produto)}
+            className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm"
+          >
+            Remover
+          </button>
+        )}
       </div>
     </div>
   );
