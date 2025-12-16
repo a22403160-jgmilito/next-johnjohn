@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Produto } from '@/models/interfaces';
+import { useEffect, useState } from 'react';
 
 const IMAGE_BASE_URL = 'https://deisishop.pythonanywhere.com';
 
@@ -26,6 +27,22 @@ export default function ProdutoCard({ produto, onAddToCart, onRemoveFromCart, is
   const estrelas = '⭐'.repeat(estrelasInteiras)
     + (meiaEstrela ? '✰' : '')
     + '☆'.repeat(maxEstrelas - estrelasInteiras - (meiaEstrela ? 1 : 0));
+
+  const likeKey = `like_${produto.id}`;
+  
+  const [like, setlike] = useState(() => {
+    const likeStored = localStorage.getItem(likeKey)
+    return likeStored ? Number(likeStored) : 0
+  })
+
+  function Aumentarlike() {
+    setlike((prev) => (prev < 20 ? prev + 1 : prev));
+  }
+
+  //efeitos
+  useEffect(() => {
+    localStorage.setItem(likeKey, String(like))
+  }, [like])
 
   return (
     <div className="m-4 p-3 border rounded-xl shadow-sm">
@@ -60,7 +77,7 @@ export default function ProdutoCard({ produto, onAddToCart, onRemoveFromCart, is
         {/* botão + info (detalhes) */}
         <Link
           href={`/produtos/${produto.id}`}
-          className="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm"
+          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm"
         >
           + info
         </Link>
@@ -69,16 +86,21 @@ export default function ProdutoCard({ produto, onAddToCart, onRemoveFromCart, is
         {onAddToCart && !isInCart && (
           <button
             onClick={() => onAddToCart(produto)}
-            className="bg-green-500 text-white px-3 py-1 rounded-lg text-sm"
+            className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white px-3 py-1 rounded-lg text-sm"
           >
             Adicionar
           </button>
         )}
-
+        <button
+          onClick={Aumentarlike} 
+          className="bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 text-white px-3 py-1 rounded-lg text-sm"
+        >
+          LIKE : {like}
+        </button>
         {onRemoveFromCart && isInCart && (
           <button
             onClick={() => onRemoveFromCart(produto)}
-            className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm"
+            className="bg-red-500 hover:bg-red-600 active:bg-red-700 text-white px-3 py-1 rounded-lg text-sm"
           >
             Remover
           </button>

@@ -7,8 +7,6 @@ export default function MagiaDoJSX() {7
             <p>Este é o meu compoente MagiaDoJSX.</p>
             <p>Um componete é uma funcao que retorna JSX - {magia}.</p>
             <p>Os componentes sao usados em {tecnologias}</p>
-
-
         </div>
     )
 }

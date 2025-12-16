@@ -13,6 +13,8 @@ export default function ContadorPage() {
 
     const contagemStored = window.localStorage.getItem("contagem");
     return contagemStored ? JSON.parse(contagemStored) : 0;
+    // Se existir valor guardado, converte de string para número.
+    // Caso contrário, inicia o contador em 0.
   });
 
 
@@ -21,6 +23,7 @@ export default function ContadorPage() {
   // Guardar no localStorage sempre que a contagem muda
   useEffect(() => {
     if (typeof window === "undefined") return;
+    // Garante que o código só corre no browser
     window.localStorage.setItem("contagem", JSON.stringify(contagem));
   }, [contagem]);
 

@@ -35,6 +35,7 @@ export default function RootLayout({
             <ul className="flex gap-4 list-none m-0 p-0" >
               <li><Link href ="/">Intro</Link></li>
               <li><Link href ="/sobre">Sobre</Link></li>
+              <li><Link href="/tecnologias">Tecnologia</Link></li>
               <li><Link href = "/projetos">projetos</Link></li>
               <li><Link href = "/orgulho">orgulho</Link></li>
               <li><Link href = "/contador">contador</Link></li>
