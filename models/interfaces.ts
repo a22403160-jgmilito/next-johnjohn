@@ -12,3 +12,9 @@ export interface Produto {
   rating: Rating;
   category: string;
 }
+export interface Joke{
+    type: string
+    setup: string
+    punchline: string
+    id: number
+}

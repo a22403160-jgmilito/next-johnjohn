@@ -12,7 +12,7 @@ const fetcher = async (url: string) => {
 
     if (!res.ok) {
         throw new Error(`Erro: ${res.status} ${res.statusText}`);
-    }
+    }res.json
 
     return res.json();
 }
@@ -24,6 +24,21 @@ export default function ProdutosPage() {
     const [filteredData, setFilteredData] = useState<Produto[]>([])
 
     const [ordenacao, setOrdenacao] = useState<'price-asc' | 'price-desc' | 'name-asc' | 'name-desc'>('price-asc')
+
+    // ⭐ NOVO: favoritos (lista de IDs) – lê do localStorage na inicialização
+    const [favorites, setFavorites] = useState<number[]>(() => {
+        if (typeof window === 'undefined') return [];
+        try {
+            const stored = localStorage.getItem('favorites');
+            return stored ? JSON.parse(stored) as number[] : [];
+        } catch (e) {
+            console.error('Erro ao ler favorites do localStorage', e);
+            return [];
+        }
+    });
+
+    // // DEMO: mostrar apenas favoritos (DEIXAR COMENTADO AGORA)
+    const [mostrarApenasFavoritos, setMostrarApenasFavoritos] = useState(false);
 
     // estado do carrinho – já lê do localStorage na inicialização
     const [cart, setCart] = useState<Produto[]>(() => {
@@ -55,6 +70,13 @@ export default function ProdutosPage() {
         if (typeof window === 'undefined') return;
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
+
+    // sempre que os favoritos mudarem, guardar no localStorage
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }, [favorites]);
+
 
     // testar se está a receber dados
     useEffect(() => {
@@ -150,7 +172,19 @@ export default function ProdutosPage() {
             setBuyError(err.message ?? 'Erro ao comprar');
         }
     }
+        // ⭐ NOVO: alternar favorito
+    function toggleFavorite(produto: Produto) {
+        setFavorites((prev) => {
+            if (prev.includes(produto.id)) {
+                // se já é favorito, remove
+                return prev.filter((id) => id !== produto.id);
+            }
+            // se ainda não é, adiciona
+            return [...prev, produto.id];
+        });
+    }
 
+   
     // tratamento de erro
     if (error) {
         return (
@@ -173,7 +207,32 @@ export default function ProdutosPage() {
 
     if (!data) return null;
 
-    const produtosOrdenados = [...produtosFiltrados].sort((a, b) => {
+    // const produtosOrdenados = [...produtosFiltrados].sort((a, b) => {
+    //     switch (ordenacao) {
+    //         case 'price-asc':
+    //             return a.price - b.price;
+    //         case 'price-desc':
+    //             return b.price - a.price;
+    //         case 'name-asc':
+    //             return a.title.localeCompare(b.title);
+    //         case 'name-desc':
+    //             return b.title.localeCompare(a.title);
+    //         default:
+    //             return 0;
+    //     }
+    // });
+    
+        // ===================== DEMO – LISTA DE FAVORITOS =====================
+    // Para usar a lista de favoritos em vez de todos os produtos:
+    //
+    // 1) Descomentar este bloco.
+    // 2) Comentar ou apagar a definição de `const produtosOrdenados = [...]` acima.
+    //
+    const produtosParaListar = mostrarApenasFavoritos
+      ? produtosFiltrados.filter((p) => favorites.includes(p.id))
+      : produtosFiltrados;
+    
+    const produtosOrdenados = [...produtosParaListar].sort((a, b) => {
         switch (ordenacao) {
             case 'price-asc':
                 return a.price - b.price;
@@ -187,6 +246,8 @@ export default function ProdutosPage() {
                 return 0;
         }
     });
+    // =====================================================================
+
 
     // total do carrinho (number)
     const totalCarrinho = cart.reduce(
@@ -222,6 +283,14 @@ export default function ProdutosPage() {
                     <option value="name-asc">Nome A–Z</option>
                     <option value="name-desc">Nome Z–A</option>
                 </select>
+
+                {/* <button
+                    className="bg-red-600 text-white px-4 py-2 rounded-xl"
+                    onClick={() => setMostrarApenasFavoritos((prev) => !prev)}
+                >
+                    {mostrarApenasFavoritos ? 'Ver todos' : 'Ver favoritos'}
+                </button> */}
+
             </div>
 
             {/* lista principal de produtos */}
@@ -231,6 +300,9 @@ export default function ProdutosPage() {
                         key={p.id}
                         produto={p}
                         onAddToCart={addToCart}
+                        // ⭐ NOVO: coração de favorito
+                        isFavorite={favorites.includes(p.id)}
+                        onToggleFavorite={toggleFavorite}
                     />
                 ))}
             </div>
@@ -252,6 +324,9 @@ export default function ProdutosPage() {
                                     produto={p}
                                     isInCart
                                     onRemoveFromCart={removeFromCart}
+                                      // também mostra o favorito no carrinho
+                                    isFavorite={favorites.includes(p.id)}
+                                    onToggleFavorite={toggleFavorite}
                                 />
                             ))}
                         </div>

@@ -20,7 +20,6 @@ export default function Tecnologia({ title, description, image, rating }: Tecnol
                 <p>{'⭐'.repeat(rating)}{' '}
             <span className="rating-num">{rating}/5</span></p>
             </div>
-
         </div>
     )
 }

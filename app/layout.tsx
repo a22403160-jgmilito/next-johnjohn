@@ -41,6 +41,7 @@ export default function RootLayout({
               <li><Link href = "/contador">contador</Link></li>
               <li><Link href = "/input">input</Link></li>
               <li><Link href = "/produtos">produtos</Link></li>
+              <li><Link href = "/jokes">piadocas</Link></li>
             </ul>
           </nav>
         </header>

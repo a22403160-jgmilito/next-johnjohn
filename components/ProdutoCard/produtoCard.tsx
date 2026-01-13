@@ -12,9 +12,12 @@ interface ProdutoCardProps {
   onAddToCart?: (produto: Produto) => void;
   onRemoveFromCart?: (produto: Produto) => void;
   isInCart?: boolean;
+   // ⭐ NOVO: favoritos
+  isFavorite?: boolean;
+  onToggleFavorite?: (produto: Produto) => void;
 }
 
-export default function ProdutoCard({ produto, onAddToCart, onRemoveFromCart, isInCart }: ProdutoCardProps) {
+export default function ProdutoCard({ produto, onAddToCart, onRemoveFromCart, isInCart ,isFavorite, onToggleFavorite,}: ProdutoCardProps) {
   const imageUrl = produto.image.startsWith('http')
     ? produto.image
     : IMAGE_BASE_URL + produto.image;
@@ -91,6 +94,16 @@ export default function ProdutoCard({ produto, onAddToCart, onRemoveFromCart, is
             Adicionar
           </button>
         )}
+        {/* ⭐ NOVO: botão vermelho com coração vazio/cheio */}
+        {/* {onToggleFavorite && (
+          <button
+            onClick={() => onToggleFavorite(produto)}
+            className="bg-red-600 hover:bg-red-700 active:bg-red-800 text-white px-3 py-1 rounded-lg text-sm"
+          >
+            {isFavorite ? '♥' : '♡'}
+          </button>
+        )} */}
+        {/* botão LIKE*/}
         <button
           onClick={Aumentarlike} 
           className="bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 text-white px-3 py-1 rounded-lg text-sm"

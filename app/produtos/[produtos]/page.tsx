@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import type { Produto } from '@/models/interfaces';
 import ProdutoDetalhe from '@/components/ProdutoDetalhe/produtoDetalhe';
 import Link from 'next/link';
@@ -21,11 +21,8 @@ const fetcher = async (url: string) => {
 };
 
 export default function ProdutoPage() {
-  const pathname = usePathname();
-  // "/produtos/6" → ["", "produtos", "6"] → "6"
-  const partes = pathname.split('/').filter(Boolean);
-  const lastSegment = partes[partes.length - 1];
-
+  const params = useParams();
+  const lastSegment = params.produtos; 
   const idNumber = Number(lastSegment);
 
   if (!lastSegment || Number.isNaN(idNumber)) {
